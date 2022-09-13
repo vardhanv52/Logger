@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Sample Logger</string>
+    <string name="loading_please_wait">Loading! Please wait…</string>
+    <string name="went_wrong">Something went wrong! Please try again.</string>
+</resources>
