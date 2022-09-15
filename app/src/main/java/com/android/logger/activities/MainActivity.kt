@@ -1,12 +1,14 @@
 package com.android.logger.activities
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.logger.R
 import com.android.logger.databinding.ActivityMainBinding
 import com.android.logger.retrofit.APIManager
 import com.android.logger.utils.Helper
+import com.android.my_logger.MyLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        MyLogger.log("MainActivity OnCreate")
         setListeners()
     }
 
@@ -28,6 +31,31 @@ class MainActivity : AppCompatActivity() {
         }
         binding.button2.setOnClickListener {
             makeAPICall2()
+        }
+        binding.navigateBtn.setOnClickListener {
+            startActivity(Intent(context, SampleActivity::class.java))
+        }
+        binding.clearDb.setOnClickListener {
+            MyLogger.clearDatabase()
+            Helper.showToast("Logs cleared")
+        }
+        binding.syncBtn.setOnClickListener {
+            Helper.showToast("WIP")
+            return@setOnClickListener
+            Helper.showToast("Synced!")
+        }
+        binding.exportDb.setOnClickListener {
+            Helper.showToast("WIP")
+            return@setOnClickListener
+            Helper.showProgressDialog(context)
+            val status = MyLogger.exportDatabase()
+            Helper.showToast(
+                if (status)
+                    "Exported successfully"
+                else
+                    "Failed to Export!"
+            )
+            Helper.dismissProgressDialog()
         }
     }
 
