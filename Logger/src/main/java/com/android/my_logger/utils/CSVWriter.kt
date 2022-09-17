@@ -1,12 +1,25 @@
 package com.android.my_logger.utils;
 
+import android.util.Xml
 import java.io.IOException;
+import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.Writer;
 
-internal class CSVWriter(writer: Writer) {
+internal class CSVWriter {
+    var writer: Writer? = null
+    var printWriter: PrintWriter? = null
+    var outputStream: OutputStream? = null
 
-    private var printWriter = PrintWriter(writer)
+    constructor(writer: Writer) {
+        this.writer = writer
+        printWriter = PrintWriter(writer)
+    }
+
+    constructor(outputStream: OutputStream) {
+        this.outputStream = outputStream
+    }
+
     private var separator = ','
     private var lineEnd = '\n'
 
@@ -21,19 +34,25 @@ internal class CSVWriter(writer: Writer) {
         for (i in 0 until nextLine.size) {
             if (i != 0)
                 sb.append(separator)
-            sb.append(nextLine[i])
+            sb.append(nextLine[i]?.replace(",", ";") ?: "")
         }
         sb.append(lineEnd)
-        printWriter.write(sb.toString())
+        LogUtil.log(sb.toString())
+        if(printWriter != null)
+            printWriter!!.write(sb.toString())
+        else
+            outputStream!!.write(sb.toString().toByteArray())
     }
 
     fun flush() {
-        printWriter.flush()
+        printWriter?.flush()
+        outputStream?.flush()
     }
 
     fun close() {
-        printWriter.flush()
-        printWriter.close()
+        flush()
+        printWriter?.close()
+        outputStream?.close()
     }
 
 }

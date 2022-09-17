@@ -1,9 +1,13 @@
 package com.android.logger.activities
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import com.android.logger.R
 import com.android.logger.databinding.ActivityMainBinding
 import com.android.logger.retrofit.APIManager
@@ -45,8 +49,18 @@ class MainActivity : AppCompatActivity() {
             Helper.showToast("Synced!")
         }
         binding.exportDb.setOnClickListener {
-            Helper.showToast("WIP")
-            return@setOnClickListener
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    200
+                )
+                return@setOnClickListener
+            }
             Helper.showProgressDialog(context)
             val status = MyLogger.exportDatabase()
             Helper.showToast(
