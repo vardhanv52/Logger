@@ -2,13 +2,15 @@ package com.android.my_logger.utils
 
 class LogOptions {
 
-    var apiCalls = APICalls()
+    val apiCalls = APICalls()
 
-    var userActions = UserActions()
+    val userActions = UserActions()
 
-    var customMessages = CustomMessages()
+    val customMessages = CustomMessages()
 
     val firebase = Firebase()
+
+    var tags = ""
 
     class CustomMessages {
         // On/Off the logging

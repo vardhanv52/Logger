@@ -16,6 +16,7 @@ internal class EntryDTO {
     var response: String? = null
     var date: String? = null
     var time: String? = null
+    var tags: String? = null
     var insertedAt = 0L
 
     constructor(api: APICalls) {
@@ -26,6 +27,7 @@ internal class EntryDTO {
         responseCode = api.responseCode
         response = api.response
         insertedAt = api.insertedAt
+        tags = api.tags
         date = DateUtil.getDate(insertedAt)
         time = DateUtil.getTime(insertedAt)
     }
@@ -34,6 +36,7 @@ internal class EntryDTO {
         id = action.id
         activity = action.activity
         message = action.message
+        tags = action.tags
         insertedAt = action.insertedAt
         date = DateUtil.getDate(insertedAt)
         time = DateUtil.getTime(insertedAt)

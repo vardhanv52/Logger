@@ -17,7 +17,7 @@ import com.android.my_logger.utils.LogUtil
 object MyLogger {
     lateinit var context: Context
     internal lateinit var roomAPI: RoomAPI
-    internal lateinit var options: LogOptions
+    lateinit var options: LogOptions
     private lateinit var application: Application
 
     fun launch(application: Application) {

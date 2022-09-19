@@ -2,6 +2,7 @@ package com.android.my_logger.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.android.my_logger.MyLogger
 import com.android.my_logger.dtos.EntryDTO
 import com.google.firebase.firestore.Exclude
 import java.util.*
@@ -15,8 +16,8 @@ internal class APICalls {
     var headers: String? = null
     var body: String? = null
     var responseCode = 0
+    var tags: String? = null
     var response: String? = null
-
     @get:Exclude
     var isSynced = false
     var insertedAt = 0L
@@ -31,6 +32,7 @@ internal class APICalls {
         this.body = body
         this.response = response
         responseCode = code
+        tags = MyLogger.options.tags
         insertedAt = Calendar.getInstance().timeInMillis
     }
 
@@ -42,11 +44,13 @@ internal class APICalls {
         responseCode = data.responseCode ?: 0
         response = data.response
         insertedAt = data.insertedAt
+        tags = data.tags
     }
 
     override fun toString(): String {
         return "=====API call=========\nUrl => $url,\nHeaders => $headers,\nRequest Body => $body," +
-                "\nResponse code => $responseCode,\nResponse => $response\nTime => ${Date(insertedAt)}"
+                "\nResponse code => $responseCode,\nResponse => $response\ntags => $tags" +
+                "\nTime => ${Date(insertedAt)}"
     }
 
 }

@@ -2,6 +2,7 @@ package com.android.my_logger.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.android.my_logger.MyLogger
 import com.android.my_logger.dtos.EntryDTO
 import com.google.firebase.firestore.Exclude
 import java.util.*
@@ -13,8 +14,10 @@ internal class UserActions {
     var id = 0L
     var activity: String? = null
     var message: String? = null
+
     @get:Exclude
     var isSynced = false
+    var tags: String? = null
     var insertedAt = 0L
 
     constructor() {
@@ -24,6 +27,7 @@ internal class UserActions {
     constructor(activity: String?, msg: String?) {
         this.activity = activity
         this.message = msg
+        this.tags = MyLogger.options.tags
         insertedAt = Calendar.getInstance().timeInMillis
     }
 
@@ -32,14 +36,12 @@ internal class UserActions {
         activity = data.activity
         message = data.message
         insertedAt = data.insertedAt
+        tags = data.tags
     }
 
     override fun toString(): String {
-        return "=====User Action=========\nActivity => $activity,\nMessage => $message,\nTime => ${
-            Date(
-                insertedAt
-            )
-        }"
+        return "=====User Action=========\nActivity => $activity,\nMessage => $message,\ntags => $tags" +
+                "\nTime => ${Date(insertedAt)}"
     }
 
 }

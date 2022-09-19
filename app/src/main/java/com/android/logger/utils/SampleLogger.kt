@@ -6,6 +6,7 @@ import com.android.logger.retrofit.API
 import com.android.logger.retrofit.WebServiceAccess
 import com.android.my_logger.MyLogger
 import com.android.my_logger.utils.LogOptions
+import java.util.*
 
 class SampleLogger : Application() {
 
@@ -17,6 +18,7 @@ class SampleLogger : Application() {
             userActions.terminalLogging = true
             customMessages.terminalLogging = true
         })
+        MyLogger.options.tags = "OrderId"
         super.onCreate()
     }
 
