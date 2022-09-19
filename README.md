@@ -67,7 +67,7 @@ The entire customisation happens through the object of the LogOptions class. Ple
 This works only if the retrofit library is being used within the project. The library provides an interceptor which in return has to be added to the HttpClient object while configuring the Retrofit.
 
 ```
-    httpClient?.addInterceptor(MyLogger.getAPIInterceptor())
+httpClient?.addInterceptor(MyLogger.getAPIInterceptor())
 ```
 
 ### Logging User Interaction
@@ -89,7 +89,7 @@ binding.clickMeBtn.setOnClickListener(listener)
 ### Logging Custom Messages
 
 ```
-    MyLogger.log("MainActivity OnCreate")
+MyLogger.log("MainActivity OnCreate")
 ```
 
 The argument for the log function can be anything. If a string is not provided, the given data will be converted to a string through Gson and then will be logged.
@@ -97,13 +97,13 @@ The argument for the log function can be anything. If a string is not provided, 
 ### Export Database
 
 ```
-    Helper.showProgressDialog(context)
-    val status = MyLogger.exportDatabase()
-    Helper.showToast(
-        if (status) "Exported successfully"
-        else "Failed to Export!"
-    )
-    Helper.dismissProgressDialog()
+Helper.showProgressDialog(context)
+val status = MyLogger.exportDatabase()
+Helper.showToast(
+    if (status) "Exported successfully"
+    else "Failed to Export!"
+)
+Helper.dismissProgressDialog()
 ```
 
 The exportDatabase function returns a boolean value. if True, the local db is successfully exported to a CSV file otherwise the operation is failed. The exported csv file will be in the documents folder.
@@ -112,7 +112,7 @@ if the android SDK is less than 29, then the app has to declare the WRITE_EXTERN
 ### Clear Database
 
 ```
-    MyLogger.clearDatabase()
+MyLogger.clearDatabase()
 ```
 
 Clears the entire local database.
@@ -120,15 +120,15 @@ Clears the entire local database.
 ### Syncing with Firebase
 
 ```
-    Helper.showProgressDialog(context)
-    val result = MyLogger.syncDatabase()
-    Helper.dismissProgressDialog()
-    when (result.code) {
-        Codes.DATA_SYNC_DONE.toString() -> Helper.showToast("Synced!")
-        Codes.DATA_SYNC_FAIL.toString() -> Helper.showToast("Synced failed!")
-        Codes.NOTHING_TO_SYNC.toString() -> Helper.showToast("No new logs to sync!")
-        Codes.DST_NOT_CONFIGURED.toString() -> Helper.showToast("Firebase not configured properly!")
-    }
+Helper.showProgressDialog(context)
+val result = MyLogger.syncDatabase()
+Helper.dismissProgressDialog()
+when (result.code) {
+    Codes.DATA_SYNC_DONE.toString() -> Helper.showToast("Synced!")
+    Codes.DATA_SYNC_FAIL.toString() -> Helper.showToast("Synced failed!")
+    Codes.NOTHING_TO_SYNC.toString() -> Helper.showToast("No new logs to sync!")
+    Codes.DST_NOT_CONFIGURED.toString() -> Helper.showToast("Firebase not configured properly!")
+}
 ```
 
 The SyncDatabase function returns a dto _(LibResponseDTO)_. This object will have the following two properties.
@@ -137,3 +137,5 @@ The SyncDatabase function returns a dto _(LibResponseDTO)_. This object will hav
 | :------: | :------: | :-----------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  status  | Boolean  |                            true or false                            | True means operation successfully done otherwise not                                                                                                                                                                   |
 |   code   |  String  | DATA_SYNC_DONE, DATA_SYNC_FAIL, NOTHING_TO_SYNC, DST_NOT_CONFIGURED | <ul><li>DATA_SYNC_DONE - Successfully done.</li><li>DATA_SYNC_FAIL - Syncing failed.</li><li>NOTHING_TO_SYNC - No entries found for syncing</li><li>DST_NOT_CONFIGURED - Firebase is not configured properly</li></ul> |
+
+Check the src code of the app module within the repo for sample implementation.
