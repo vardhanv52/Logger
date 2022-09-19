@@ -8,6 +8,8 @@ class LogOptions {
 
     var customMessages = CustomMessages()
 
+    val firebase = Firebase()
+
     class CustomMessages {
         // On/Off the logging
         var enabled = true
@@ -39,5 +41,9 @@ class LogOptions {
 
         // On/Off the logging to db
         var dbLogging = true
+    }
+
+    class Firebase {
+        var collection = Constants.COLLECTION_LOGS_PARENT
     }
 }

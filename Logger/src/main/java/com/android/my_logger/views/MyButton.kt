@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
+import com.android.my_logger.listeners.MyOnClickListener
 import com.android.my_logger.utils.LogUtil
 
 class MyButton : Button, View.OnClickListener {
@@ -39,7 +40,8 @@ class MyButton : Button, View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        LogUtil.logUserAction(p0)
+        if (listener !is MyOnClickListener)
+            LogUtil.logUserAction(p0)
         listener?.onClick(p0)
     }
 }

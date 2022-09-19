@@ -13,6 +13,7 @@ import com.android.logger.databinding.ActivityMainBinding
 import com.android.logger.retrofit.APIManager
 import com.android.logger.utils.Helper
 import com.android.my_logger.MyLogger
+import com.android.my_logger.utils.Codes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,9 +45,15 @@ class MainActivity : AppCompatActivity() {
             Helper.showToast("Logs cleared")
         }
         binding.syncBtn.setOnClickListener {
-            Helper.showToast("WIP")
-            return@setOnClickListener
-            Helper.showToast("Synced!")
+            Helper.showProgressDialog(context)
+            val result = MyLogger.syncDatabase()
+            Helper.dismissProgressDialog()
+            when (result.code) {
+                Codes.DATA_SYNC_DONE.toString() -> Helper.showToast("Synced!")
+                Codes.DATA_SYNC_FAIL.toString() -> Helper.showToast("Synced failed!")
+                Codes.NOTHING_TO_SYNC.toString() -> Helper.showToast("No new logs to sync!")
+                Codes.DST_NOT_CONFIGURED.toString() -> Helper.showToast("Firebase not configured properly!")
+            }
         }
         binding.exportDb.setOnClickListener {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ActivityCompat.checkSelfPermission(

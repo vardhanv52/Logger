@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.View
 import com.android.my_logger.MyLogger.options
 import com.android.my_logger.MyLogger.roomAPI
-import com.android.my_logger.utils.Constants.tag
+import com.android.my_logger.utils.Constants.TAG
 import com.android.my_logger.room.APICalls
 import com.android.my_logger.room.UserActions
 import com.google.gson.Gson
@@ -15,7 +15,7 @@ import org.json.JSONObject
 internal object LogUtil {
 
     fun log(msg: String) {
-        Log.d(tag, msg)
+        Log.d(TAG, msg)
     }
 
     fun log(data: Any?) {
@@ -27,6 +27,10 @@ internal object LogUtil {
             "Null"
         else
             Gson().toJson(data).toString()
+    }
+
+    fun logError(str: String?) {
+        Log.e(TAG, "$str")
     }
 
     fun logAPICall(

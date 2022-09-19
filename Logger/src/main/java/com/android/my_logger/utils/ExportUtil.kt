@@ -18,7 +18,7 @@ internal class ExportUtil(val apis: List<APICalls>, val actions: List<UserAction
         addAll(
             arrayListOf(
                 "Screen", "Message", "Url", "Headers", "Body", "Response code",
-                "Response", "Timestamp"
+                "Response", "Date", "Time"
             )
         )
     }
@@ -92,7 +92,7 @@ internal class ExportUtil(val apis: List<APICalls>, val actions: List<UserAction
                 arrayListOf(
                     it.activity, it.message, it.url, it.headers, it.body,
                     it.responseCode.toString(), it.response,
-                    Date(it.insertedAt).toString()
+                    it.date, it.time
                 )
             )
         }
