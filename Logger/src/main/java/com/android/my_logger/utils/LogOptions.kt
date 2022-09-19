@@ -6,7 +6,7 @@ class LogOptions {
 
     val userActions = UserActions()
 
-    val customMessages = CustomMessages()
+    val messages = CustomMessages()
 
     val firebase = Firebase()
 
@@ -46,6 +46,6 @@ class LogOptions {
     }
 
     class Firebase {
-        var collection = Constants.COLLECTION_LOGS_PARENT
+        var logsCollection = Constants.COLLECTION_LOGS_PARENT
     }
 }

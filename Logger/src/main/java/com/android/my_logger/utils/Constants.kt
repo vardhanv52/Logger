@@ -9,6 +9,6 @@ internal object Constants {
     const val COLLECTION_LOGS = "logs"
     const val COLLECTION_LOGS_PARENT = "my_logger_logs"
 
-    const val MAX_BATCH_COMMIT_SIZE = 5
+    const val MAX_BATCH_COMMIT_SIZE = 400
 
 }

@@ -60,7 +60,7 @@ internal object LogUtil {
     }
 
     fun logMessage(msg: String?) {
-        if(msg == null || !options.customMessages.enabled)
+        if(msg == null || !options.messages.enabled)
             return
         val action = UserActions(ActivityCallbacks.currentActivity, msg)
         if (options.userActions.dbLogging)
@@ -70,7 +70,7 @@ internal object LogUtil {
     }
 
     fun logMessage(data: Any?) {
-        if(data == null || !options.customMessages.enabled)
+        if(data == null || !options.messages.enabled)
             return
         val action = UserActions(ActivityCallbacks.currentActivity, getString(data))
         if (options.userActions.dbLogging)

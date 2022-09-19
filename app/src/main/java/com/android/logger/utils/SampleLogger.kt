@@ -15,8 +15,7 @@ class SampleLogger : Application() {
         appContext = this
         MyLogger.launch(this, LogOptions().apply {
             apiCalls.terminalLogging = true
-            userActions.terminalLogging = true
-            customMessages.terminalLogging = true
+            firebase.logsCollection = "library-logs"
         })
         MyLogger.options.tags = "OrderId"
         super.onCreate()

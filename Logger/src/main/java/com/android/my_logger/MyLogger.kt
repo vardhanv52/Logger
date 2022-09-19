@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.android.my_logger.responses.LibResponse
+import com.android.my_logger.dtos.LibResponseDTO
 import com.android.my_logger.retrofit.APIInterceptor
 import com.android.my_logger.room.RoomAPI
 import com.android.my_logger.room.RoomDB
@@ -66,11 +66,11 @@ object MyLogger {
         roomAPI.deleteActions()
     }
 
-    fun syncDatabase(): LibResponse {
+    fun syncDatabase(): LibResponseDTO {
         val apis = roomAPI.getUnSyncedAPICalls()
         val actions = roomAPI.getUnSyncedActions()
         if (apis.isEmpty() && actions.isEmpty()) {
-            return LibResponse(true, Codes.NOTHING_TO_SYNC.toString())
+            return LibResponseDTO(true, Codes.NOTHING_TO_SYNC.toString())
         }
         return SyncUtil(apis, actions).syncData()
     }

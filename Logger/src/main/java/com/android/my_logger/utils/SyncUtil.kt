@@ -1,19 +1,16 @@
 package com.android.my_logger.utils
 
-import com.android.my_logger.MyLogger
 import com.android.my_logger.MyLogger.options
 import com.android.my_logger.MyLogger.roomAPI
 import com.android.my_logger.dtos.EntryDTO
-import com.android.my_logger.responses.LibResponse
+import com.android.my_logger.dtos.LibResponseDTO
 import com.android.my_logger.room.APICalls
 import com.android.my_logger.room.UserActions
 import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Response
 import java.util.ArrayList
 
 internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>) {
@@ -41,10 +38,10 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
         entries.addAll(temp)
     }
 
-    fun syncData(): LibResponse {
+    fun syncData(): LibResponseDTO {
         if (!isFirebaseEnabled) {
             LogUtil.logError("Firebase is not integrated!")
-            return LibResponse(false, Codes.DST_NOT_CONFIGURED.toString())
+            return LibResponseDTO(false, Codes.DST_NOT_CONFIGURED.toString())
         }
         try {
             firestore = FirebaseFirestore.getInstance()
@@ -62,15 +59,15 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
-            return LibResponse(false, Codes.DATA_SYNC_FAIL.toString())
+            return LibResponseDTO(false, Codes.DATA_SYNC_FAIL.toString())
         }
-        return LibResponse(true, Codes.DATA_SYNC_DONE.toString())
+        return LibResponseDTO(true, Codes.DATA_SYNC_DONE.toString())
     }
 
     private suspend fun syncRecords(logs: List<EntryDTO>) {
         val batch = firestore.batch()
         logs.forEach {
-            val ref = firestore.collection(options.firebase.collection)
+            val ref = firestore.collection(options.firebase.logsCollection)
                 .document(it.date ?: "N/A")
                 .collection(Constants.COLLECTION_LOGS)
             batch.set(ref.document(), it.getOriginalDTO())
