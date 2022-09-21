@@ -9,7 +9,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.android.logger.R
 import com.android.logger.utils.SampleLogger.Companion.appContext
-import com.android.my_logger.Constants.tag
 import com.google.gson.Gson
 
 object Helper {
@@ -37,14 +36,6 @@ object Helper {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    fun logMsg(msg: String?) {
-        Log.d(tag, "Log => $msg")
-    }
-
-    fun logMsg(data: Any?) {
-        Log.d(tag, "Log => ${Gson().toJson(data)}")
     }
 
     fun dismissProgressDialog() {

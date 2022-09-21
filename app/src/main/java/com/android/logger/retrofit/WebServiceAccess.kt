@@ -1,5 +1,7 @@
 package com.android.logger.retrofit
 
+import com.android.my_logger.MyLogger
+import com.android.my_logger.retrofit.APIInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +17,7 @@ class WebServiceAccess {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         httpClient?.addInterceptor(logging)
+        httpClient?.addInterceptor(MyLogger.getAPIInterceptor())
         httpClient?.connectTimeout(60, TimeUnit.SECONDS)
     }
 

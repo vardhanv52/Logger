@@ -7,7 +7,7 @@
     android:padding="10dp"
     tools:context=".activities.MainActivity">
 
-    <Button
+    <com.android.my_logger.views.MyButton
         android:id="@+id/button_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.android.my_logger.views.MyButton
         android:id="@+id/button_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,7 +27,16 @@
         app:layout_constraintStart_toEndOf="@id/button_1"
         app:layout_constraintTop_toTopOf="@id/button_1" />
 
-    <TextView
+    <com.android.my_logger.views.MyButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navigate to Activity 2"
+        android:id="@+id/navigate_btn"
+        app:layout_constraintTop_toBottomOf="@id/button_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.android.my_logger.views.MyTextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +46,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_1" />
+        app:layout_constraintTop_toBottomOf="@id/navigate_btn" />
 
     <TextView
         android:id="@+id/response"
@@ -47,5 +56,34 @@
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label" />
+
+    <com.android.my_logger.views.MyButton
+        android:id="@+id/export_db"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Export DB"
+        app:layout_constraintEnd_toStartOf="@id/clear_db"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.android.my_logger.views.MyButton
+        android:id="@+id/clear_db"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Clear DB"
+        app:layout_constraintEnd_toStartOf="@id/sync_btn"
+        app:layout_constraintStart_toEndOf="@id/export_db"
+        app:layout_constraintBottom_toBottomOf="@id/export_db" />
+
+    <com.android.my_logger.views.MyButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/sync_btn"
+        android:text="Sync Logs"
+        app:layout_constraintStart_toEndOf="@id/clear_db"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/clear_db"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,11 +8,14 @@ import com.google.gson.JsonArray
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.HashMap
 
 object APIManager {
 
     suspend fun executeAPI1(): GeneralResponse {
-        val resp = SampleLogger.webAPI.getUserServiceStatus()
+        val sample = HashMap<String, Any>()
+        sample["abc"] = "xyz"
+        val resp = SampleLogger.webAPI.getUserServiceStatus("ABX", sample)
         return if (resp.isSuccessful)
             resp.body() ?: GeneralResponse()
         else {
@@ -24,7 +27,7 @@ object APIManager {
     }
 
     suspend fun executeAPI2(): GeneralResponse {
-        val resp = SampleLogger.webAPI.getEventsServiceStatus()
+        val resp = SampleLogger.webAPI.getEventsServiceStatus("BCD")
         return if (resp.isSuccessful)
             resp.body() ?: GeneralResponse()
         else {
