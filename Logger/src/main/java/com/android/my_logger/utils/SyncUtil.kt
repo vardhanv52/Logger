@@ -28,10 +28,14 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
 
     init {
         apis.forEach {
-            entries.add(EntryDTO(it))
+            val entry = EntryDTO(it)
+            entry.device = Helper.getDeviceDetails()
+            entries.add(entry)
         }
         actions.forEach {
-            entries.add(EntryDTO(it))
+            val entry = EntryDTO(it)
+            entry.device = Helper.getDeviceDetails()
+            entries.add(entry)
         }
         val temp = entries.sortedWith(compareBy { it.insertedAt }).toList()
         entries.clear()

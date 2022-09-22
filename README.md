@@ -4,6 +4,27 @@ This library can be used to log all the APIs executed within the app along with 
 
 ### Integration
 
+Integration can be done either through AAR file or through Jitpack URL.
+
+##### Jitpack URL
+Add the following code within your gradle files.
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+```
+dependencies {
+	        implementation 'com.github.vardhanv52:Logger:$latest_version'
+	}
+```
+Check the releases section for the latest version details
+
+##### AAR File
+
 - Include the aar file within the libs folder of the project.
 - Make sure that the dependencies used by the library are declared with the app level gradle file. _(The library dependencies are listed below.)_
 - Include the following lines within the project dependencies list.
@@ -11,15 +32,6 @@ This library can be used to log all the APIs executed within the app along with 
 ```
 implementation fileTree(dir: 'libs', include: ['*.jar, *.aar'])
 implementation files('libs/logger-release.aar')
-```
-
-- Within the Application class of the app, initialise the library in the following way. The second argument LogOptions object is an optional property. But can be used to customise based on the requirements. The complete list of properties available for customisation are listed below.
-
-```
-MyLogger.launch(this, LogOptions().apply {
-    apiCalls.terminalLogging = true
-    firebase.logsCollection = "library-logs"
-})
 ```
 
 ### Library Dependencies
@@ -36,13 +48,23 @@ implementation platform('com.google.firebase:firebase-bom:30.4.1')
 implementation 'com.google.firebase:firebase-firestore'
 ```
 
+### Implementation
+- Within the Application class of the app, initialise the library in the following way. The second argument LogOptions object is an optional property. But can be used to customise based on the requirements. The complete list of properties available for customisation are listed below.
+
+```
+MyLogger.launch(this, LogOptions().apply {
+    apiCalls.terminalLogging = true
+    firebase.logsCollection = "library-logs"
+})
+```
+
 ### Library Customisation
 
 The entire customisation happens through the object of the LogOptions class. Please check the following table for the available properties.
 
 | Property                    | DataType | Default Value  | Description                                                                                                                                                     |
 | :-------------------------- | :------: | :------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tags                        |  String  | (Empty String) | If configured, all the log records will have this property. Can store something like an OrderId which will help us in filtering the log records while debugging |
+| tags                        |  String  | (Empty String) | If configured, all the log records will have this property. Can store something like an OrderId, User email etc., which will help us in filtering the log records while debugging |
 | firebase.logsCollection     |  String  | my_logger_logs | If provided, the logs will be stored within this collection.                                                                                                    |
 | apiCalls.enabled            | Boolean  |      true      | If true, API calls will be logged as per the configuration otherwise no.                                                                                        |
 | apiCalls.terminalLogging    | Boolean  |     false      | If true, API calls data will be printed in the terminal along with logging                                                                                      |
@@ -61,6 +83,7 @@ The entire customisation happens through the object of the LogOptions class. Ple
 |     API Call     | URL, Headers, Body, Response code, Response, Tags, Timestamp |
 | User Interaction | Screen/Activity, View Id, Tags, Timestamp                    |
 | Custom Messages  | Screen/Activity, Message, Tags, Timestamp                    |
+In addition to the above properties, Device Manufacturer, Device Model and Device SDK details will also be logged for all the logs.
 
 ### Logging API Calls
 
