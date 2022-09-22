@@ -1,6 +1,7 @@
 package com.android.my_logger.room
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.my_logger.MyLogger
 import com.android.my_logger.dtos.EntryDTO
@@ -21,6 +22,8 @@ internal class APICalls {
     @get:Exclude
     var isSynced = false
     var insertedAt = 0L
+    @Ignore
+    var device: String? = null
 
     constructor() {
         insertedAt = Calendar.getInstance().timeInMillis
@@ -45,6 +48,7 @@ internal class APICalls {
         response = data.response
         insertedAt = data.insertedAt
         tags = data.tags
+        device = data.device
     }
 
     override fun toString(): String {

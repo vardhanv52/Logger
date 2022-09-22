@@ -17,6 +17,7 @@ internal class EntryDTO {
     var date: String? = null
     var time: String? = null
     var tags: String? = null
+    var device: String? = null
     var insertedAt = 0L
 
     constructor(api: APICalls) {

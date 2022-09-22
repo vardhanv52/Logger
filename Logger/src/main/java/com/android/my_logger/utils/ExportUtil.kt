@@ -17,7 +17,7 @@ internal class ExportUtil(val apis: List<APICalls>, val actions: List<UserAction
     private val headers = ArrayList<String?>().apply {
         addAll(
             arrayListOf(
-                "Screen", "Message", "Url", "Headers", "Body", "Response code",
+                "Device", "Screen", "Message", "Url", "Headers", "Body", "Response code",
                 "Response", "Tags", "Date", "Time"
             )
         )
@@ -90,7 +90,7 @@ internal class ExportUtil(val apis: List<APICalls>, val actions: List<UserAction
         entries.forEach {
             data.add(
                 arrayListOf(
-                    it.activity, it.message, it.url, it.headers, it.body,
+                    Helper.getDeviceDetails(), it.activity, it.message, it.url, it.headers, it.body,
                     it.responseCode.toString(), it.response, it.tags,
                     it.date, it.time
                 )
