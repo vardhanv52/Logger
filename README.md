@@ -7,10 +7,7 @@ This library can be used to log all the APIs executed within the app along with 
 Integration can be done either through AAR file or through Jitpack URL.
 
 ##### Jitpack URL
-<<<<<<< HEAD
 
-=======
->>>>>>> develop
 Add the following code within your gradle files.
 ```
 allprojects {
