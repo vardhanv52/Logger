@@ -16,7 +16,7 @@ internal class EntryDTO {
     var response: String? = null
     var date: String? = null
     var time: String? = null
-    var tags: String? = null
+    var tags: List<String>? = null
     var device: String? = null
     var insertedAt = 0L
 

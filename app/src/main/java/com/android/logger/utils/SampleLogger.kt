@@ -17,7 +17,7 @@ class SampleLogger : Application() {
             apiCalls.terminalLogging = true
             firebase.logsCollection = "library-logs"
         })
-        MyLogger.options.tags = "OrderId"
+        MyLogger.setTags(arrayListOf("OrderId", "User Email"))
         super.onCreate()
     }
 

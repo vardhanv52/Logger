@@ -12,13 +12,13 @@ import com.android.my_logger.utils.*
 import com.android.my_logger.utils.ActivityCallbacks
 import com.android.my_logger.utils.Constants
 import com.android.my_logger.utils.LogUtil
-
 @SuppressLint("StaticFieldLeak")
 object MyLogger {
     lateinit var context: Context
     internal lateinit var roomAPI: RoomAPI
     lateinit var options: LogOptions
     private lateinit var application: Application
+    private val tags = ArrayList<String>()
 
     fun launch(application: Application) {
         context = application.applicationContext
@@ -75,4 +75,21 @@ object MyLogger {
         return SyncUtil(apis, actions).syncData()
     }
 
+    fun setTags(tags: List<String>) {
+        this.tags.clear()
+        this.tags.addAll(tags)
+    }
+
+    fun addTags(tags: List<String>) {
+        this.tags.addAll(tags)
+    }
+
+    fun clearTags() {
+        this.tags.clear()
+    }
+
+    fun getTags(): List<String> {
+        return this.tags
+    }
 }
+

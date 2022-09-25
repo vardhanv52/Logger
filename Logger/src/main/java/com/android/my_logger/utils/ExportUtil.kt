@@ -91,7 +91,7 @@ internal class ExportUtil(val apis: List<APICalls>, val actions: List<UserAction
             data.add(
                 arrayListOf(
                     Helper.getDeviceDetails(), it.activity, it.message, it.url, it.headers, it.body,
-                    it.responseCode.toString(), it.response, it.tags,
+                    it.responseCode.toString(), it.response, it.tags.toString(),
                     it.date, it.time
                 )
             )

@@ -10,8 +10,6 @@ class LogOptions {
 
     val firebase = Firebase()
 
-    var tags = ""
-
     class CustomMessages {
         // On/Off the logging
         var enabled = true
