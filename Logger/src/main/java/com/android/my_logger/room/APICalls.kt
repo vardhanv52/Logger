@@ -17,7 +17,7 @@ internal class APICalls {
     var headers: String? = null
     var body: String? = null
     var responseCode = 0
-    var tags: String? = null
+    var tags: List<String>? = null
     var response: String? = null
     @get:Exclude
     var isSynced = false
@@ -35,7 +35,7 @@ internal class APICalls {
         this.body = body
         this.response = response
         responseCode = code
-        tags = MyLogger.options.tags
+        tags = MyLogger.getTags()
         insertedAt = Calendar.getInstance().timeInMillis
     }
 

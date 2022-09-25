@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.room.Room
 import com.android.my_logger.dtos.LibResponseDTO
 import com.android.my_logger.retrofit.APIInterceptor
+import com.android.my_logger.room.Converters
 import com.android.my_logger.room.RoomAPI
 import com.android.my_logger.room.RoomDB
 import com.android.my_logger.utils.*
@@ -19,6 +20,7 @@ object MyLogger {
     internal lateinit var roomAPI: RoomAPI
     lateinit var options: LogOptions
     private lateinit var application: Application
+    private val tags = ArrayList<String>()
 
     fun launch(application: Application) {
         context = application.applicationContext
@@ -73,6 +75,23 @@ object MyLogger {
             return LibResponseDTO(true, Codes.NOTHING_TO_SYNC.toString())
         }
         return SyncUtil(apis, actions).syncData()
+    }
+
+    fun setTags(tags: List<String>) {
+        this.tags.clear()
+        this.tags.addAll(tags)
+    }
+
+    fun addTags(tags: List<String>) {
+        this.tags.addAll(tags)
+    }
+
+    fun clearTags() {
+        this.tags.clear()
+    }
+
+    fun getTags(): List<String> {
+        return this.tags
     }
 
 }

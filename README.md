@@ -64,7 +64,6 @@ The entire customisation happens through the object of the LogOptions class. Ple
 
 | Property                    | DataType | Default Value  | Description                                                                                                                                                     |
 | :-------------------------- | :------: | :------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tags                        |  String  | (Empty String) | If configured, all the log records will have this property. Can store something like an OrderId, User email etc., which will help us in filtering the log records while debugging |
 | firebase.logsCollection     |  String  | my_logger_logs | If provided, the logs will be stored within this collection.                                                                                                    |
 | apiCalls.enabled            | Boolean  |      true      | If true, API calls will be logged as per the configuration otherwise no.                                                                                        |
 | apiCalls.terminalLogging    | Boolean  |     false      | If true, API calls data will be printed in the terminal along with logging                                                                                      |
@@ -75,6 +74,13 @@ The entire customisation happens through the object of the LogOptions class. Ple
 | messages.enabled            | Boolean  |      true      | If true, the developer will be able to log custom messages otherwise no.                                                                                        |
 | messages.terminalLogging    | Boolean  |     false      | If true, the custom messages will be printed in the terminal along with logging                                                                                 |
 | messages.dbLogging          | Boolean  |      true      | If true, the custom messages will be logged in the local database.                                                                                              |
+
+### Appending Tags
+Tags can be configured in the following way.
+```
+MyLogger.setTags(arrayListOf("OrderId", "User Email"))
+```
+By default, tags will be an empty array. If provided, all the logs will be tagged with these tags. Anything that helps in filtering the logs can be provided through tags.
 
 ### Tracking Properties
 

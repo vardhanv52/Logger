@@ -18,7 +18,7 @@ internal class UserActions {
 
     @get:Exclude
     var isSynced = false
-    var tags: String? = null
+    var tags: List<String>? = null
     var insertedAt = 0L
     @Ignore
     var device: String? = null
@@ -30,7 +30,7 @@ internal class UserActions {
     constructor(activity: String?, msg: String?) {
         this.activity = activity
         this.message = msg
-        this.tags = MyLogger.options.tags
+        this.tags = MyLogger.getTags()
         insertedAt = Calendar.getInstance().timeInMillis
     }
 
