@@ -20,7 +20,6 @@ object MyLogger {
     internal lateinit var roomAPI: RoomAPI
     lateinit var options: LogOptions
     private lateinit var application: Application
-    private val tags = ArrayList<String>()
 
     fun launch(application: Application) {
         context = application.applicationContext
@@ -78,20 +77,19 @@ object MyLogger {
     }
 
     fun setTags(tags: List<String>) {
-        this.tags.clear()
-        this.tags.addAll(tags)
+        TagsUtil.setTags(tags)
     }
 
     fun addTags(tags: List<String>) {
-        this.tags.addAll(tags)
+        TagsUtil.addTags(tags)
     }
 
     fun clearTags() {
-        this.tags.clear()
+        TagsUtil.clearTags()
     }
 
     fun getTags(): List<String> {
-        return this.tags
+        return TagsUtil.getTags()
     }
 
 }
