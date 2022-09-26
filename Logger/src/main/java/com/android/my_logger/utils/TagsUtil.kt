@@ -21,7 +21,7 @@ internal object TagsUtil {
 
     fun addTags(tags: List<String>) {
         tags.forEach {
-            if(!tags.contains(it))
+            if(!this.tags.contains(it))
                 this.tags.add(it)
         }
         saveTags()
