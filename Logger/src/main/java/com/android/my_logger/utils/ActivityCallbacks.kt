@@ -3,11 +3,12 @@ package com.android.my_logger.utils
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.android.my_logger.MyLogger
 
 internal class ActivityCallbacks : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-        currentActivity = p0.localClassName
+        currentActivity = formattedName(p0.localClassName)
     }
 
     override fun onActivityStarted(p0: Activity) {
@@ -15,7 +16,12 @@ internal class ActivityCallbacks : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(p0: Activity) {
-        currentActivity = p0.localClassName
+        currentActivity = formattedName(p0.localClassName)
+    }
+
+    private fun formattedName(className: String): String {
+        val packageName = MyLogger.context.packageName
+        return className.replace(packageName, "")
     }
 
     override fun onActivityPaused(p0: Activity) {
