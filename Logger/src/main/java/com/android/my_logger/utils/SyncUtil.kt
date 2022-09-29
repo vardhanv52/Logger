@@ -1,5 +1,6 @@
 package com.android.my_logger.utils
 
+import com.android.my_logger.MyLogger
 import com.android.my_logger.MyLogger.options
 import com.android.my_logger.MyLogger.roomAPI
 import com.android.my_logger.dtos.EntryDTO
@@ -68,12 +69,12 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
         return LibResponseDTO(true, Codes.DATA_SYNC_DONE.toString())
     }
 
-    private suspend fun syncRecords(logs: List<EntryDTO>) {
+    private fun syncRecords(logs: List<EntryDTO>) {
         val batch = firestore.batch()
         logs.forEach {
-            val ref = firestore.collection(options.firebase.logsCollection)
+            val ref = firestore.collection(Constants.COLLECTION_LOGS_ROOT)
                 .document(it.date ?: "N/A")
-                .collection(Constants.COLLECTION_LOGS)
+                .collection(getLogsCollectionName())
             batch.set(ref.document(), it.getOriginalDTO())
         }
         batch.commit().addOnCompleteListener { it ->
@@ -93,5 +94,12 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
                 roomAPI.markAPIsAsSynced(ids)
             }
         }
+    }
+
+    private fun getLogsCollectionName(): String {
+        return if(options.firebase.logsCollection.isEmpty())
+            Constants.COLLECTION_LOGS
+        else
+            options.firebase.logsCollection
     }
 }

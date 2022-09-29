@@ -63,9 +63,9 @@ internal object LogUtil {
         if(msg == null || !options.messages.enabled)
             return
         val action = UserActions(ActivityCallbacks.currentActivity, msg)
-        if (options.userActions.dbLogging)
+        if (options.messages.dbLogging)
             roomAPI.insertAction(action)
-        if (options.userActions.terminalLogging)
+        if (options.messages.terminalLogging)
             log(action.toString())
     }
 
@@ -73,9 +73,9 @@ internal object LogUtil {
         if(data == null || !options.messages.enabled)
             return
         val action = UserActions(ActivityCallbacks.currentActivity, getString(data))
-        if (options.userActions.dbLogging)
+        if (options.messages.dbLogging)
             roomAPI.insertAction(action)
-        if (options.userActions.terminalLogging)
+        if (options.messages.terminalLogging)
             log(action.toString())
     }
 
