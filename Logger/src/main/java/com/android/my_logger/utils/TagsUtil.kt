@@ -32,6 +32,13 @@ internal object TagsUtil {
         saveTags()
     }
 
+    fun clearTags(list: List<String>) {
+        list.forEach {
+            this.tags.remove(it)
+        }
+        saveTags()
+    }
+
     fun getTags(): List<String> {
         return this.tags
     }

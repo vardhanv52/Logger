@@ -15,7 +15,10 @@ class SampleLogger : Application() {
         appContext = this
         MyLogger.launch(this, LogOptions().apply {
             apiCalls.terminalLogging = true
+            messages.terminalLogging = true
             firebase.logsCollection = "library-logs"
+            setLogsHistory(2)
+            setSyncingInterval(20)
         })
         MyLogger.setTags(arrayListOf("OrderId", "User Email"))
         super.onCreate()

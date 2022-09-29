@@ -21,17 +21,23 @@ object MyLogger {
     lateinit var options: LogOptions
     private lateinit var application: Application
 
-    fun launch(application: Application) {
-        context = application.applicationContext
+    fun launch(app: Application) {
+        application = app
+        context = app.applicationContext
         options = LogOptions()
-        application.registerActivityLifecycleCallbacks(ActivityCallbacks.getInstance())
-        initRoom()
+        init()
     }
 
-    fun launch(application: Application, options: LogOptions) {
-        context = application.applicationContext
+    fun launch(app: Application, options: LogOptions) {
+        application = app
+        context = app.applicationContext
         this.options = options
+        init()
+    }
+
+    private fun init() {
         application.registerActivityLifecycleCallbacks(ActivityCallbacks.getInstance())
+        Scheduler.schedule()
         initRoom()
     }
 
@@ -86,6 +92,10 @@ object MyLogger {
 
     fun clearTags() {
         TagsUtil.clearTags()
+    }
+
+    fun clearTags(list: List<String>) {
+        TagsUtil.clearTags(list)
     }
 
     fun getTags(): List<String> {

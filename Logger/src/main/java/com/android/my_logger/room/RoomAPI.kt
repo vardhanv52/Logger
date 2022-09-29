@@ -21,6 +21,9 @@ internal interface RoomAPI {
     @Query("update api_calls set isSynced = 1 where id IN (:ids)")
     fun markAPIsAsSynced(ids: List<Long>)
 
+    @Query("delete from api_calls where insertedAt < :time")
+    fun deleteOldAPICalls(time: Long)
+
     @Insert
     fun insertAction(action: UserActions): Long
 
@@ -35,4 +38,7 @@ internal interface RoomAPI {
 
     @Query("update user_actions set isSynced = 1 where id IN (:ids)")
     fun markActionsAsSynced(ids: List<Long>)
+
+    @Query("delete from user_actions where insertedAt < :time")
+    fun deleteOldActions(time: Long)
 }

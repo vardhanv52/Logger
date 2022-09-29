@@ -18,8 +18,8 @@ allprojects {
 ```
 ```
 dependencies {
-	        implementation 'com.github.vardhanv52:Logger:$latest_version'
-	}
+    implementation 'com.github.vardhanv52:Logger:$latest_version'
+}
 ```
 Check the releases section for the latest version details
 
@@ -38,8 +38,10 @@ implementation files('libs/logger-release.aar')
 
 ```
 def roomVersion = "2.4.3"
+def workVersion = "2.7.1"
 implementation "androidx.room:room-runtime:$roomVersion"
 kapt "androidx.room:room-compiler:$roomVersion"
+implementation "androidx.work:work-runtime-ktx:$workVersion"
 implementation 'androidx.core:core-ktx:1.7.0'
 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 implementation 'com.google.code.gson:gson:2.8.9'
@@ -54,7 +56,10 @@ implementation 'com.google.firebase:firebase-firestore'
 ```
 MyLogger.launch(this, LogOptions().apply {
     apiCalls.terminalLogging = true
+    messages.terminalLogging = true
     firebase.logsCollection = "library-logs"
+    setLogsHistory(2)
+    setSyncingInterval(20)
 })
 ```
 
@@ -64,9 +69,13 @@ The entire customisation happens through the object of the LogOptions class. Ple
 
 | Property                    | DataType | Default Value  | Description                                                                                                                                                     |
 | :-------------------------- | :------: | :------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| firebase.logsCollection     |  String  | my_logger_logs | If provided, the logs will be stored within this collection.                                                                                                    |
-| apiCalls.enabled            | Boolean  |      true      | If true, API calls will be logged as per the configuration otherwise no.                                                                                        |
-| apiCalls.terminalLogging    | Boolean  |     false      | If true, API calls data will be printed in the terminal along with logging                                                                                      |
+| firebase.logsCollection     |  String  |      logs      | If provided, the logs will be stored within this collection.                                                                                                    |
+| autoSyncing | Boolean | true | Auto syncing of logs to firestore will happen based upon this boolean value. |
+| syncingInterval | Int | 15 | The values is in minutes. The logs will be synced with firestore periodically based on this interval. Have to use setSyncingInterval(Int) function to update the property |
+| autoDeletion | Boolean | true | Auto deletion of logs from local db will happen based upon this boolean value. |
+| logsHistory | Int | 1 | The values is in days. This number specifies how many days of logs does the library have to maintain in the local db at any time. Have to use setLogsHistory(Int) function to update the property |
+| apiCalls.enabled            | Boolean  |      true      | If true, API calls will be logged as per the configuration otherwise no.                                                                                    |
+| apiCalls.terminalLogging    | Boolean  |     false      | If true, API calls data will be printed in the terminal along with logging                                                                                  |
 | apiCalls.dbLogging          | Boolean  |      true      | If true, the triggered API calls will be logged in the local database.                                                                                          |
 | userActions.enabled         | Boolean  |      true      | If true, User interactions will be logged as per the configuration otherwise no.                                                                                |
 | userActions.terminalLogging | Boolean  |     false      | If true, User interactions data will be printed in the terminal along with logging                                                                              |
@@ -81,6 +90,15 @@ Tags can be configured in the following way.
 MyLogger.setTags(arrayListOf("OrderId", "User Email"))
 ```
 By default, tags will be an empty array. If provided, all the logs will be tagged with these tags. Anything that helps in filtering the logs can be provided through tags.
+The following functions are available to deal with the tags.
+
+```
+    fun setTags(tags: List<String>) - To set tags
+    fun addTags(tags: List<String>) - To add tags to existing list
+    fun clearTags() - To clear all the tags
+    fun clearTags(list: List<String>) -  To clear specific tags
+    fun getTags(): List<String> - To fetch existing tags
+```
 
 ### Tracking Properties
 
