@@ -8,6 +8,8 @@ object PrefUtil {
     private const val fileName = "app_logger_prefs"
 
     const val keyTags = "tags"
+    const val keySyncJobVersion = "schedulers_version"
+    const val keyDeleteJobVersion = "schedulers_version"
 
     private fun getSharedPreferences(): SharedPreferences? {
         return MyLogger.context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
@@ -27,5 +29,9 @@ object PrefUtil {
 
     fun getString(key: String): String? {
         return getSharedPreferences()?.getString(key, null)
+    }
+
+    fun getInt(key: String): Int {
+        return getSharedPreferences()?.getInt(key, 0) ?: 0
     }
 }
