@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit
 internal object Scheduler {
     private const val JOB_SYNCING_LOGS = "JOB_SYNCING_LOGS"
     private const val JOB_DELETING_LOGS = "JOB_DELETING_LOGS"
+    private const val SYNC_JOB_VERSION = 1
+    private const val DELETE_JOB_VERSION = 1
 
     fun schedule() {
         if (MyLogger.options.autoSyncing)
@@ -22,13 +24,34 @@ internal object Scheduler {
     }
 
     private fun scheduleDeletionJob() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
         val work =
             PeriodicWorkRequestBuilder<DeletingLogs>(
-                MyLogger.options.getLogsHistory().toLong(), TimeUnit.DAYS,
+                1, TimeUnit.DAYS,
                 2, TimeUnit.HOURS
-            ).build()
+            )
+                .setConstraints(constraints)
+                .build()
         WorkManager.getInstance(MyLogger.context)
-            .enqueueUniquePeriodicWork(JOB_DELETING_LOGS, ExistingPeriodicWorkPolicy.KEEP, work)
+            .enqueueUniquePeriodicWork(JOB_DELETING_LOGS, getWorkPolicy(JOB_DELETING_LOGS), work)
+    }
+
+    private fun getWorkPolicy(job: String): ExistingPeriodicWorkPolicy {
+        return if (job == JOB_SYNCING_LOGS) {
+            if (PrefUtil.getInt(PrefUtil.keySyncJobVersion) < SYNC_JOB_VERSION) {
+                PrefUtil.saveData(PrefUtil.keySyncJobVersion, SYNC_JOB_VERSION)
+                ExistingPeriodicWorkPolicy.REPLACE
+            } else
+                ExistingPeriodicWorkPolicy.KEEP
+        } else {
+            if (PrefUtil.getInt(PrefUtil.keyDeleteJobVersion) < DELETE_JOB_VERSION) {
+                PrefUtil.saveData(PrefUtil.keyDeleteJobVersion, DELETE_JOB_VERSION)
+                ExistingPeriodicWorkPolicy.REPLACE
+            } else
+                ExistingPeriodicWorkPolicy.KEEP
+        }
     }
 
     private fun clearDeletionJob() {
@@ -48,7 +71,7 @@ internal object Scheduler {
                 .setConstraints(constraints)
                 .build()
         WorkManager.getInstance(MyLogger.context)
-            .enqueueUniquePeriodicWork(JOB_SYNCING_LOGS, ExistingPeriodicWorkPolicy.KEEP, work)
+            .enqueueUniquePeriodicWork(JOB_SYNCING_LOGS, getWorkPolicy(JOB_SYNCING_LOGS), work)
     }
 
     private fun clearSyncingJob() {

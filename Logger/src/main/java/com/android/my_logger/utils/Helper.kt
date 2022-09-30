@@ -2,6 +2,9 @@ package com.android.my_logger.utils
 
 import android.view.View
 import com.android.my_logger.MyLogger
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 internal object Helper {
@@ -30,4 +33,25 @@ internal object Helper {
         }
     }
 
+    fun getLogsCollectionPath(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_LOGS_ROOT)
+            .document(getLogsCollectionName())
+            .collection(Constants.COLLECTION_LOGS)
+    }
+
+    private fun getLogsCollectionName(): String {
+        return if (MyLogger.options.firebase.logsCollection.isEmpty())
+            Constants.COLLECTION_LOGS
+        else
+            MyLogger.options.firebase.logsCollection
+    }
+
+    val isFirebaseEnabled: Boolean
+        get() {
+            return try {
+                FirebaseApp.getInstance() != null
+            } catch (e: IllegalStateException) {
+                false
+            }
+        }
 }
