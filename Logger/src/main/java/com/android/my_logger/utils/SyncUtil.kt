@@ -18,15 +18,6 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
     private var entries = ArrayList<EntryDTO>()
     private lateinit var firestore: FirebaseFirestore
 
-    private val isFirebaseEnabled: Boolean
-        get() {
-            return try {
-                FirebaseApp.getInstance() != null
-            } catch (e: IllegalStateException) {
-                false
-            }
-        }
-
     init {
         apis.forEach {
             val entry = EntryDTO(it)
@@ -44,7 +35,7 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
     }
 
     fun syncData(): LibResponseDTO {
-        if (!isFirebaseEnabled) {
+        if (!Helper.isFirebaseEnabled) {
             LogUtil.logError("Firebase is not integrated!")
             return LibResponseDTO(false, Codes.DST_NOT_CONFIGURED.toString())
         }
@@ -72,9 +63,7 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
     private fun syncRecords(logs: List<EntryDTO>) {
         val batch = firestore.batch()
         logs.forEach {
-            val ref = firestore.collection(Constants.COLLECTION_LOGS_ROOT)
-                .document(it.date ?: "N/A")
-                .collection(getLogsCollectionName())
+            val ref = Helper.getLogsCollectionPath()
             batch.set(ref.document(), it.getOriginalDTO())
         }
         batch.commit().addOnCompleteListener { it ->
@@ -94,12 +83,5 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
                 roomAPI.markAPIsAsSynced(ids)
             }
         }
-    }
-
-    private fun getLogsCollectionName(): String {
-        return if(options.firebase.logsCollection.isEmpty())
-            Constants.COLLECTION_LOGS
-        else
-            options.firebase.logsCollection
     }
 }

@@ -22,11 +22,16 @@ internal object Scheduler {
     }
 
     private fun scheduleDeletionJob() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
         val work =
             PeriodicWorkRequestBuilder<DeletingLogs>(
-                MyLogger.options.getLogsHistory().toLong(), TimeUnit.DAYS,
+                1, TimeUnit.DAYS,
                 2, TimeUnit.HOURS
-            ).build()
+            )
+                .setConstraints(constraints)
+                .build()
         WorkManager.getInstance(MyLogger.context)
             .enqueueUniquePeriodicWork(JOB_DELETING_LOGS, ExistingPeriodicWorkPolicy.KEEP, work)
     }
