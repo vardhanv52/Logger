@@ -7,7 +7,6 @@ This library can be used to log all the APIs executed within the app along with 
 Integration can be done either through AAR file or through Jitpack URL.
 
 ##### Jitpack URL
-
 Add the following code within your gradle files.
 ```
 allprojects {
@@ -52,7 +51,6 @@ implementation 'com.google.firebase:firebase-firestore'
 ```
 
 ### Implementation
-
 - Within the Application class of the app, initialise the library in the following way. The second argument LogOptions object is an optional property. But can be used to customise based on the requirements. The complete list of properties available for customisation are listed below.
 
 ```
@@ -87,7 +85,6 @@ The entire customisation happens through the object of the LogOptions class. Ple
 | messages.dbLogging          | Boolean  |      true      | If true, the custom messages will be logged in the local database.                                                                                              |
 
 ### Appending Tags
-
 Tags can be configured in the following way.
 ```
 MyLogger.setTags(arrayListOf("OrderId", "User Email"))
