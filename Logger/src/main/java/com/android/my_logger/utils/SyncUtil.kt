@@ -1,18 +1,14 @@
 package com.android.my_logger.utils
 
-import com.android.my_logger.MyLogger
-import com.android.my_logger.MyLogger.options
 import com.android.my_logger.MyLogger.roomAPI
 import com.android.my_logger.dtos.EntryDTO
 import com.android.my_logger.dtos.LibResponseDTO
 import com.android.my_logger.room.APICalls
 import com.android.my_logger.room.UserActions
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 
 internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>) {
     private var entries = ArrayList<EntryDTO>()
@@ -41,7 +37,9 @@ internal class SyncUtil(val apis: List<APICalls>, val actions: List<UserActions>
         }
         try {
             firestore = FirebaseFirestore.getInstance()
-            val rounds = entries.size / Constants.MAX_BATCH_COMMIT_SIZE
+            var rounds = entries.size / Constants.MAX_BATCH_COMMIT_SIZE
+            if (entries.size % Constants.MAX_BATCH_COMMIT_SIZE != 0)
+                rounds++
             for (i in 0..rounds) {
                 CoroutineScope(Dispatchers.Main).launch {
                     val start = i * Constants.MAX_BATCH_COMMIT_SIZE
